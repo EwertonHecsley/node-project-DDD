@@ -1,4 +1,5 @@
 import Entity from '../../../utils/entities/generic.entity';
+import Identity from '../../../utils/entities/generic.identity';
 
 type EmployeeType = {
     name: string;
@@ -8,7 +9,7 @@ type EmployeeType = {
 
 export default class Employee extends Entity<EmployeeType> {
 
-    constructor(data: EmployeeType, id?: string) {
+    constructor(data: EmployeeType, id?: Identity) {
         super(data, id)
     }
 

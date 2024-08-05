@@ -1,4 +1,5 @@
 import Entity from '../../../utils/entities/generic.entity';
+import Identity from '../../../utils/entities/generic.identity';
 
 type RommType = {
     name: string;
@@ -13,7 +14,7 @@ type RommType = {
 
 export default class Room extends Entity<RommType> {
 
-    constructor(data: RommType, id?: string) {
+    constructor(data: RommType, id?: Identity) {
         super(data, id);
     }
 
