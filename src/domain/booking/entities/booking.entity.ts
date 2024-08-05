@@ -1,5 +1,6 @@
 import Room from '../../employee/entities/room.entity';
 import Entity from '../../../utils/entities/generic.entity';
+import Identity from '../../../utils/entities/generic.identity';
 
 type BookingType = {
     room: Room;
@@ -11,7 +12,7 @@ type BookingType = {
 
 export default class Booking extends Entity<BookingType> {
 
-    constructor(data: BookingType, id?: string) {
+    constructor(data: BookingType, id?: Identity) {
         super(data, id);
     }
 
