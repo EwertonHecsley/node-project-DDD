@@ -12,8 +12,9 @@ type BookingType = {
 
 export default class Booking extends Entity<BookingType> {
 
-    constructor(data: BookingType, id?: Identity) {
-        super(data, id);
+    //Este partner utilizando um método estático, remove a necessidade da criacao de um CONSTRUTOR da classe
+    static create(data: BookingType, id?: Identity) {
+        return new Booking(data, id);
     }
 
     get room(): Room {
