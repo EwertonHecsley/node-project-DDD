@@ -14,8 +14,8 @@ type RommType = {
 
 export default class Room extends Entity<RommType> {
 
-    constructor(data: RommType, id?: Identity) {
-        super(data, id);
+    static create(data: RommType, id?: Identity) {
+        return new Room(data, id)
     }
 
     get name(): string {
