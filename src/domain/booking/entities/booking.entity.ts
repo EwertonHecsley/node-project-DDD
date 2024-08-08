@@ -1,6 +1,7 @@
 import Room from '../../employee/entities/room.entity';
 import Entity from '../../../utils/entities/generic.entity';
 import Identity from '../../../utils/entities/generic.identity';
+import { Optional } from '../../../utils/types/opitional.type';
 
 type BookingType = {
     room: Room;
@@ -13,8 +14,14 @@ type BookingType = {
 export default class Booking extends Entity<BookingType> {
 
     //Este partner utilizando um método estático, remove a necessidade da criacao de um CONSTRUTOR da classe
-    static create(data: BookingType, id?: Identity) {
-        return new Booking(data, id);
+    static create(data: Optional<BookingType, 'isActive'>, id?: Identity) {
+        return new Booking(
+            {
+                ...data,
+                isActive: data.isActive ?? true
+            },
+            id
+        );
     }
 
     get room(): Room {
