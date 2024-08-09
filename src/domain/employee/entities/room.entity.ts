@@ -1,5 +1,6 @@
 import Entity from '../../../utils/entities/generic.entity';
 import Identity from '../../../utils/entities/generic.identity';
+import { Optional } from '../../../utils/types/opitional.type';
 
 type RommType = {
     name: string;
@@ -14,8 +15,18 @@ type RommType = {
 
 export default class Room extends Entity<RommType> {
 
-    constructor(data: RommType, id?: Identity) {
-        super(data, id);
+    static create(data: Optional<RommType, 'hasWifi' | 'hasAir' | 'hasKitchen' | 'isPetFriendly' | 'isAvailable'>, id?: Identity) {
+        return new Room(
+            {
+                ...data,
+                hasWifi: data.hasWifi ?? false,
+                hasAir: data.hasAir ?? false,
+                hasKitchen: data.hasKitchen ?? false,
+                isPetFriendly: data.isPetFriendly ?? false,
+                isAvailable: data.isAvailable ?? true,
+            },
+            id
+        )
     }
 
     get name(): string {
