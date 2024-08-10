@@ -1,10 +1,11 @@
 import Entity from '../../../utils/entities/generic.entity';
 import Identity from '../../../utils/entities/generic.identity';
 import { Optional } from '../../../utils/types/opitional.type';
+import Money from '../../shared/value-object/money';
 
 type RommType = {
     name: string;
-    price: string;
+    price: Money;
     image: string;
     hasWifi: boolean;
     hasAir: boolean;
@@ -33,7 +34,7 @@ export default class Room extends Entity<RommType> {
         return this.attributes.name;
     }
 
-    get price(): string {
+    get price(): Money {
         return this.attributes.price;
     }
 
@@ -65,7 +66,7 @@ export default class Room extends Entity<RommType> {
         this.attributes.name = name;
     }
 
-    set price(price: string) {
+    set price(price: Money) {
         this.attributes.price = price;
     }
 
