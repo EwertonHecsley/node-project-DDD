@@ -4,8 +4,8 @@ import { RoomRepository } from "../../src/domain/employee/repositories/room.repo
 export class InMemoryRoomRepository implements RoomRepository {
     itens: Room[] = [];
 
-    create(room: Room): Room {
-        this.itens.push(room);
+    async create(room: Room): Promise<Room> {
+        await this.itens.push(room);
 
         return room;
     }
