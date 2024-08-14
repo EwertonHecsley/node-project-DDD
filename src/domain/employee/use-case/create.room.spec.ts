@@ -12,8 +12,8 @@ describe('Criação de quartos', () => {
         useCase = new CreateRoomUseCase(roomRepository);
     })
 
-    test('Deve criar um quarto', () => {
-        const room = useCase.handler({
+    test('Deve criar um quarto', async () => {
+        const room = await useCase.handler({
             name: 'Quarto 1',
             price: 120000,
             image: 'image.jpeg'
@@ -33,8 +33,8 @@ describe('Criação de quartos', () => {
 
     });
 
-    test('Deve alterar as propriedades de um quarto', () => {
-        const room = useCase.handler({
+    test('Deve alterar as propriedades de um quarto', async () => {
+        const room = await useCase.handler({
             name: 'Quarto 1',
             price: 120000,
             image: 'image.jpeg'

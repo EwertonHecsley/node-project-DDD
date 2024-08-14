@@ -17,10 +17,10 @@ export class CreateRoomUseCase {
 
     constructor(private roomRepository: RoomRepository) { }
 
-    handler(data: Request) {
+    async handler(data: Request) {
         const price = Money.create(data.price);
         const room = Room.create({ ...data, price });
-        this.roomRepository.create(room);
+        await this.roomRepository.create(room);
 
         return room;
     }
