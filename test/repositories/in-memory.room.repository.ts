@@ -9,4 +9,18 @@ export class InMemoryRoomRepository implements RoomRepository {
 
         return room;
     }
+
+    async findMany(): Promise<Room[]> {
+        return await this.itens
+    }
+
+    async findById(id: string): Promise<Room | null> {
+        const room = await this.itens.find((item) => item.id.getString() === id);
+
+        if (!room) {
+            return null;
+        }
+
+        return room;
+    }
 }
