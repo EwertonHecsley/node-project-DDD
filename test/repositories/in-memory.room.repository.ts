@@ -9,4 +9,8 @@ export class InMemoryRoomRepository implements RoomRepository {
 
         return room;
     }
+
+    async findMany(): Promise<Room[]> {
+        return await this.itens
+    }
 }
