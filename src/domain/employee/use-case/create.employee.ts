@@ -1,6 +1,7 @@
 import { EmployeeRepository } from "../../booking/repositories/employee.repository";
 import Email from "../../shared/value-object/email";
 import Employee from "../entities/employee.entity";
+import { HashRepository } from "../services/hash.repository";
 
 type Request = {
     name: string;
@@ -10,7 +11,9 @@ type Request = {
 
 export class CreateRoomUseCase {
 
-    constructor(private employeeRepository: EmployeeRepository) { }
+    constructor(
+        private employeeRepository: EmployeeRepository,
+        private hashRepository: HashRepository) { }
 
     async handler({ name, email, password }: Request) {
         const emailExist = await this.employeeRepository.findByEmail(email);
@@ -25,7 +28,9 @@ export class CreateRoomUseCase {
             return null;
         }
 
-        const employee = Employee.create({ name, email: emailEmployee, password });
+        const hashPassword = await this.hashRepository.hash(password);
+
+        const employee = Employee.create({ name, email: emailEmployee, password: hashPassword });
 
         await this.employeeRepository.create(employee);
 
