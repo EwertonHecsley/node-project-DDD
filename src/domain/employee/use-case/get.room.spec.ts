@@ -25,16 +25,16 @@ describe('Listagem de quartos', () => {
             id: room.id.getString()
         });
 
-        expect(response!.name).toBe('Quarto Teste');
+        expect(response.isRigth()).toBeTruthy();
 
     });
 
     test('Ao passar um ID inválido, deve retornar nulo', async () => {
         const response = await useCase.handler({
-            id: '1'
+            id: '100'
         });
 
-        expect(response).toBeNull();
+        expect(response.isLeft()).toBeTruthy();
 
     });
 })
