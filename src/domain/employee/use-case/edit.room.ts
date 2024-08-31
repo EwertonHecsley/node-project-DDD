@@ -1,3 +1,5 @@
+import { NotFoundError } from "../../errors/custom/notFound.error";
+import { Either, left, right } from "../../errors/either/either";
 import Money from "../../shared/value-object/money";
 import Room from "../entities/room.entity";
 import { RoomRepository } from "../repositories/room.repository";
@@ -14,15 +16,17 @@ type Request = {
     isAvailable: boolean;
 }
 
+type Response = Either<NotFoundError, Room>;
+
 export class EditRoomUseCase {
 
     constructor(private roomRepository: RoomRepository) { }
 
-    async handler(data: Request) {
+    async handler(data: Request): Promise<Response> {
         const room = await this.roomRepository.findById(data.id);
 
         if (!room) {
-            return null;
+            return left(new NotFoundError())
         }
 
         const price = Money.create(data.price);
@@ -38,6 +42,6 @@ export class EditRoomUseCase {
 
         await this.roomRepository.save(room);
 
-        return room;
+        return right(room);
     }
 }

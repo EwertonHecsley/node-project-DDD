@@ -23,7 +23,7 @@ describe('Listagem de quartos', () => {
 
         const response = await useCase.handler();
 
-        expect(response).toHaveLength(1);
+        expect(response.value).toHaveLength(1);
 
     });
 })
