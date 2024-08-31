@@ -1,4 +1,7 @@
 import { EmployeeRepository } from "../../booking/repositories/employee.repository";
+import { InvalidEmailError } from "../../errors/custom/invalid.email.error";
+import { NotAllowadError } from "../../errors/custom/not.allowad.error";
+import { Either, left, right } from "../../errors/either/either";
 import Email from "../../shared/value-object/email";
 import Employee from "../entities/employee.entity";
 import { HashRepository } from "../services/hash.repository";
@@ -9,23 +12,25 @@ type Request = {
     password: string;
 }
 
+type Response = Either<InvalidEmailError | NotAllowadError, Employee>
+
 export class CreateRoomUseCase {
 
     constructor(
         private employeeRepository: EmployeeRepository,
         private hashRepository: HashRepository) { }
 
-    async handler({ name, email, password }: Request) {
+    async handler({ name, email, password }: Request): Promise<Response> {
         const emailExist = await this.employeeRepository.findByEmail(email);
 
-        if (!emailExist) {
-            return null;
+        if (emailExist) {
+            return left(new NotAllowadError());
         }
 
         const emailEmployee = Email.create(email);
 
         if (!emailEmployee.validate()) {
-            return null;
+            return left(new InvalidEmailError());
         }
 
         const hashPassword = await this.hashRepository.hash(password);
@@ -34,6 +39,6 @@ export class CreateRoomUseCase {
 
         await this.employeeRepository.create(employee);
 
-        return employee;
+        return right(employee);
     }
 }
