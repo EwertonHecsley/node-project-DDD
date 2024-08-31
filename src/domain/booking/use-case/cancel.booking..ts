@@ -1,21 +1,25 @@
 import { RoomRepository } from "../../employee/repositories/room.repository";
+import { NotFoundError } from "../../errors/custom/notFound.error";
+import { Either, left, right } from "../../errors/either/either";
 import Booking from "../entities/booking.entity";
 import { BookingRepository } from "../repositories/booking.repository";
 
-type Response = {
+type Request = {
     bookingId: string
 }
+
+type Response = Either<NotFoundError, Booking>
 
 export class CancelBooking {
     constructor(
         private bookingRepository: BookingRepository,
         private roomRepository: RoomRepository) { }
 
-    async handler({ bookingId }: Response): Promise<Booking | null> {
+    async handler({ bookingId }: Request): Promise<Response> {
         const bookingExist = await this.bookingRepository.findById(bookingId);
 
         if (!bookingExist) {
-            return null;
+            return left(new NotFoundError());
         }
 
         bookingExist.isActive = false;
@@ -28,6 +32,6 @@ export class CancelBooking {
 
         await this.roomRepository.save(room);
 
-        return bookingExist;
+        return right(bookingExist);
     }
 }
